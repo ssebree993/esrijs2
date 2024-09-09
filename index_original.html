@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Troubleshooting- Github blank background</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!--  calls for the arcgis api's CSS file and JS Library  -->
+    <link rel="stylesheet" href="https://js.arcgis.com/4.25/esri/themes/light/main.css">
+    <script src="https://js.arcgis.com/4.25/"></script>
+
+    <!--  Adding the modules, API key, and map constant needed for a full screen map app  -->
+      <script>
+        require([
+            "esri/config", "esri/Map", "esri/views/MapView", "esri/widgets/BasemapGallery"], 
+            
+            function(esriConfig, Map, MapView){
+
+            //esriConfig.apiKey = "AAPKfc7af196c6e64aac988bbf7529dccd648UR6aqr1HCuaJ5GN7OXourF3WZ9GF_b8R9-mMcrEZMHlZzpuLXHwt5iwInOA9k4J" //legacy key - testing purposes
+            esriConfig.apiKey = "AAPTxy8BH1VEsoebNVZXo8HurEeWBrCUPqSi8hnMSbsokZImKDKTL2eumxMlESK1TMtKX3gJ2wBAkO_V6RhRqzikZAw-impcWUS08CNTRxMZThwtPL1muLTpF_2nvp7i0-aJRdLsfglIt3AbJBWRO5bXlGpxjG_t6By6L1-vWJLVgI2N_qXF1CQx7bZlfhiKzKjTtHhUEmvRBXubdPaIzuKZfh7bZmMlIVz-7-4cORBc-NN-HByXcRV7Z2MAQbQTgHxTAT1_lgbmcTBB" //new key - testing purposes
+            const map = new Map({
+                basemap: "arcgis-imagery"  // Basemap layer  ** Challenge 02 Updated to use the "arcgis-navigation" basemap
+            });        
+        
+        const view = new MapView({
+            map: map,
+            center: [-99.082976, 40.701500],  // Longitude, latitude  ** Challenge 01 Updated to center on Kearney, NE
+            zoom: 12,  // Zoom level
+            container: "viewDiv"  // Div element
+            });
+        });
+      </script> 
+
+    <!--  css to make a full screen map  -->
+    <style>
+        html, 
+        body, 
+        #viewDiv {
+            padding: 0;
+            margin: 0;
+            height: 100%; 
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+    <!--  the div to display the map-->
+    <div id="viewDiv"></div>
+</body>
+</html>

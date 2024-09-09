@@ -11,23 +11,32 @@
     <!--  Adding the modules, API key, and map constant needed for a full screen map app  -->
       <script>
         require([
-            "esri/config", "esri/Map", "esri/views/MapView"], 
+            "esri/config", "esri/Map", "esri/views/MapView", "esri/widgets/BasemapGallery"], 
             
-            function(esriConfig, Map, MapView){
+            function(esriConfig, Map, MapView, BasemapGallery){
 
             //esriConfig.apiKey = "AAPKfc7af196c6e64aac988bbf7529dccd648UR6aqr1HCuaJ5GN7OXourF3WZ9GF_b8R9-mMcrEZMHlZzpuLXHwt5iwInOA9k4J" //legacy key - testing purposes
             esriConfig.apiKey = "AAPTxy8BH1VEsoebNVZXo8HurEeWBrCUPqSi8hnMSbsokZImKDKTL2eumxMlESK1TMtKX3gJ2wBAkO_V6RhRqzikZAw-impcWUS08CNTRxMZThwtPL1muLTpF_2nvp7i0-aJRdLsfglIt3AbJBWRO5bXlGpxjG_t6By6L1-vWJLVgI2N_qXF1CQx7bZlfhiKzKjTtHhUEmvRBXubdPaIzuKZfh7bZmMlIVz-7-4cORBc-NN-HByXcRV7Z2MAQbQTgHxTAT1_lgbmcTBB" //new key - testing purposes
             const map = new Map({
                 basemap: "arcgis-imagery"  // Basemap layer  ** Challenge 02 Updated to use the "arcgis-navigation" basemap
-            });        
-        
-        const view = new MapView({
-            map: map,
-            center: [-99.082976, 40.701500],  // Longitude, latitude  ** Challenge 01 Updated to center on Kearney, NE
-            zoom: 12,  // Zoom level
-            container: "viewDiv"  // Div element
+            }); 
+
+            const view = new MapView({
+                map: map,
+                center: [-99.082976, 40.701500],  // Longitude, latitude  ** Challenge 01 Updated to center on Kearney, NE
+                zoom: 12,  // Zoom level
+                container: "viewDiv"  // Div element
             });
+        // Create the BasemapGallery widget
+        const basemapGallery = new BasemapGallery({
+            view: view,
+            container: "galleryDiv"
         });
+
+        // Add the BasemapGallery widget to the top right corner of the view
+        view.ui.add(basemapGallery, "top-right");
+        });
+
       </script> 
 
     <!--  css to make a full screen map  -->
@@ -45,5 +54,6 @@
 <body>
     <!--  the div to display the map-->
     <div id="viewDiv"></div>
+    <div id="galleryDiv"></div>
 </body>
 </html>

@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no" />
+    <title>2D Map Gallery</title>
+    <link rel="stylesheet" href="https://js.arcgis.com/4.30/esri/themes/light/main.css" />
+    <script src="https://js.arcgis.com/4.30/"></script>
+</head>
+<body>
+        <script>
+    require([
+        "esri/Map",
+        "esri/views/MapView",
+        "esri/widgets/BasemapGallery"
+        //"esri/layers/FeatureLayer" add a new feature layer
+    ], function(Map, MapView, BasemapGallery) {
+        // Create the map
+        const map = new Map({
+            basemap: "topo-vector"  // Basemap layer service //topo-vector
+        });
+
+        // Create the view
+        const view = new MapView({
+            container: "viewDiv",
+            map: map,
+            center: [-99.082976, 40.701500], // Longitude, latitude
+            zoom: 13
+        });
+
+        // Create the BasemapGallery widget
+        const basemapGallery = new BasemapGallery({
+            view: view,
+            container: "galleryDiv"
+        });
+
+        // Add the BasemapGallery widget to the top right corner of the view
+        view.ui.add(basemapGallery, "top-right");
+    });
+</script>
+
+    <div id="viewDiv" style="height: 100vh;"></div>
+    <div id="galleryDiv"></div>
+</body>
+</html>

@@ -4,36 +4,15 @@
     <title>Troubleshooting- Github blank background</title>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <!--  calls for the arcgis api's CSS file and JS Library  -->
+    
+    <!-- Calls for the ArcGIS API's CSS file and JS Library -->
     <link rel="stylesheet" href="https://js.arcgis.com/4.25/esri/themes/light/main.css">
     <script src="https://js.arcgis.com/4.25/"></script>
 
-    <!--  Adding the modules, API key, and map constant needed for a full screen map app  -->
-      <script>
-        require([
-            "esri/config", "esri/Map", "esri/views/MapView"], 
-            
-            function(esriConfig, Map, MapView){
-
-            //esriConfig.apiKey = "AAPKfc7af196c6e64aac988bbf7529dccd648UR6aqr1HCuaJ5GN7OXourF3WZ9GF_b8R9-mMcrEZMHlZzpuLXHwt5iwInOA9k4J" //legacy key - testing purposes
-            esriConfig.apiKey = "AAPTxy8BH1VEsoebNVZXo8HurEeWBrCUPqSi8hnMSbsokZImKDKTL2eumxMlESK1TMtKX3gJ2wBAkO_V6RhRqzikZAw-impcWUS08CNTRxMZThwtPL1muLTpF_2nvp7i0-aJRdLsfglIt3AbJBWRO5bXlGpxjG_t6By6L1-vWJLVgI2N_qXF1CQx7bZlfhiKzKjTtHhUEmvRBXubdPaIzuKZfh7bZmMlIVz-7-4cORBc-NN-HByXcRV7Z2MAQbQTgHxTAT1_lgbmcTBB" //new key - testing purposes
-            const map = new Map({
-                basemap: "arcgis-topo"  // Basemap layer  ** Challenge 02 Updated to use the "arcgis-imagery" basemap. However, getting vector labeling error; labels won't draw; need full glyph and sprite paths.
-            });        
-        
-        const view = new MapView({
-            map: map,
-            center: [-99.082976, 40.701500],  // Longitude, latitude  ** Challenge 01 Updated to center on Kearney, NE
-            zoom: 12,  // Zoom level
-            container: "viewDiv"  // Div element
-            });
-        });
-      </script> 
-
-    <!--  css to make a full screen map  -->
+    <!-- CSS to make a full screen map -->
     <style>
         html, 
-        body, 
+         body, 
         #viewDiv {
             padding: 0;
             margin: 0;
@@ -41,9 +20,78 @@
             width: 100%;
         }
     </style>
+
+    <!-- Adding the modules, API key, and map constant needed for a full screen map app -->
+    <script>
+        require([
+            "esri/config", 
+            "esri/Map", 
+            "esri/views/MapView", 
+            "esri/widgets/BasemapGallery",
+            "esri/Basemap", 
+            "esri/widgets/Expand"
+        ], function(esriConfig, Map, MapView, BasemapGallery, Basemap, Expand) {
+            
+            // Set the API key
+            esriConfig.apiKey = "AAPTxy8BH1VEsoebNVZXo8HurEeWBrCUPqSi8hnMSbsokZImKDKTL2eumxMlESK1TMtKX3gJ2wBAkO_V6RhRqzikZAw-impcWUS08CNTRxMZThwtPL1muLTpF_2nvp7i0-aJRdLsfglIt3AbJBWRO5bXlGpxjG_t6By6L1-vWJLVgI2N_qXF1CQx7bZlfhiKzKjTtHhUEmvRBXubdPaIzuKZfh7bZmMlIVz-7-4cORBc-NN-HByXcRV7Z2MAQbQTgHxTAT1_lgbmcTBB";
+            
+            // Create the map object
+            const map = new Map({
+                basemap: "arcgis-streets" // arcgis-imagery-labels just shows labels, no imagery
+            }); 
+
+            // Create the map view
+            const view = new MapView({
+                container: "viewDiv",
+                map: map,
+                spatialReference: {
+                    wkid: 3857 //3847 is new wgs84_web_mercator_auxiliary_sphere; old is 102100
+                },
+                //scale: 36978595.474472,
+                center: [-99.07, 40.701500], // Longitude, latitude Kearney, NE
+                zoom: 13 // Zoom level
+            });
+            
+      // Custom Basemap List
+      const customBasemaps = [
+        new Basemap({
+          portalItem: {
+            id: "ff52218580f94d89851563f50cd1a2b2"  // Imagery Hybrid Basemap ID
+          },
+          thumbnailUrl: "https://www.arcgis.com/sharing/rest/content/items/ff52218580f94d89851563f50cd1a2b2/info/thumbnail/thumbnail1574665466956.jpeg" // Correct URL for thumbnail
+        }),
+        new Basemap({
+          portalItem: {
+            id: "826498a48bd0424f9c9315214f2165d4"  // Colored Pencial Basemap ID
+          },
+          thumbnailUrl: "https://www.arcgis.com/sharing/rest/content/items/826498a48bd0424f9c9315214f2165d4/info/thumbnail/thumbnail1580490854424.jpeg"
+        })
+        // Add more basemaps here as needed
+        // Getting "failed to load basemap error here; reboot and try again, or diff basemaps"
+      ];
+
+      // Basemap Gallery with Custom Basemaps
+      const basemapGallery = new BasemapGallery({
+        view: view,
+        source: customBasemaps // Use custom basemaps
+      });
+
+      // Expand widget to show the Basemap Gallery
+      const expand = new Expand({
+        view: view,
+        content: basemapGallery
+      });
+
+      // Add Expand widget to the top-right corner
+      view.ui.add(expand, "top-right");
+        });
+    </script> 
+
+
 </head>
 <body>
-    <!--  the div to display the map-->
+    <!-- The div to display the map -->
     <div id="viewDiv"></div>
+    <div id="galleryDiv"></div>
 </body>
 </html>

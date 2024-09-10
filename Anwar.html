@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Custom Basemap Gallery</title>
+  
+  <!-- ArcGIS API for JavaScript CSS and JS -->
+  <link rel="stylesheet" href="https://js.arcgis.com/4.25/esri/themes/light/main.css">
+  <script src="https://js.arcgis.com/4.25/"></script>
+
+  <style>
+    html, body, #viewDiv {
+      height: 100%;
+      margin: 0;
+      padding: 0;
+    }
+  </style>
+
+  <script>
+    require([
+    "esri/config",
+      "esri/Map",
+      "esri/views/MapView",
+      "esri/widgets/BasemapGallery",
+      "esri/widgets/Expand",
+      "esri/Basemap"
+    ], function(esriConfig, Map, MapView, BasemapGallery, Expand, Basemap) {
+
+        esriConfig.apiKey = "AAPTxy8BH1VEsoebNVZXo8HurEyZXPNJfJ1fGvqr_JmmmCs914eZd0NqvVoeUNHzi7UZefU96wzd2XYpwxRD30HXzEs46_hQ-WvGKMC_3Dsn_jXYcMun8JAnQgKi3Hgp4q13-EZXqNdXc1sftxPFgsnUsTk00xvJXveWlRhCD1rYgOl6etkqPlnOapMpQCgDhIKlyIikdJpX-YjSjgN8FVFWFw7jrGd6HRRDx4XhIgOE95yumVlsggr_mwOtZr3YLj1UAT1_xSqCBFt5";
+
+      
+      const map = new Map({
+        basemap: "oceans"  // Default basemap
+      });
+
+      const view = new MapView({
+        container: "viewDiv",
+        map: map,
+        center: [-97.7431, 30.2672], // Austin, TX
+        zoom: 12
+      });
+
+      // Custom Basemap List
+      const customBasemaps = [
+        new Basemap({
+          portalItem: {
+            id: "ff52218580f94d89851563f50cd1a2b2"  // Imagery Hybrid Basemap ID
+          },
+          thumbnailUrl: "https://www.arcgis.com/sharing/rest/content/items/ff52218580f94d89851563f50cd1a2b2/info/thumbnail/thumbnail1574665466956.jpeg" // Correct URL for thumbnail
+        }),
+        new Basemap({
+          portalItem: {
+            id: "826498a48bd0424f9c9315214f2165d4"  // Colored Pencial Basemap ID
+          },
+          thumbnailUrl: "https://www.arcgis.com/sharing/rest/content/items/826498a48bd0424f9c9315214f2165d4/info/thumbnail/thumbnail1580490854424.jpeg"
+        })
+        // Add more basemaps here as needed
+      ];
+
+      // Basemap Gallery with Custom Basemaps
+      const basemapGallery = new BasemapGallery({
+        view: view,
+        source: customBasemaps // Use custom basemaps
+      });
+
+      // Expand widget to show the Basemap Gallery
+      const expand = new Expand({
+        view: view,
+        content: basemapGallery
+      });
+
+      // Add Expand widget to the top-right corner
+      view.ui.add(expand, "top-right");
+
+    });
+  </script>
+</head>
+<body>
+  <div id="viewDiv"></div>
+</body>
+</html>

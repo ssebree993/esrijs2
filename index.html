@@ -32,8 +32,8 @@
       "esri/widgets/Expand",
       "esri/widgets/Locate",
       "esri/widgets/Search",
-      "esri/widgets/LocatorSearchSource"
-    ], function(esriConfig, Map, MapView, BasemapGallery, Basemap, Expand, Locate, Search, LocatorSearchSource) {
+      //"esri/widgets/LocatorSearchSource"
+    ], function(esriConfig, Map, MapView, BasemapGallery, Basemap, Expand, Locate, Search) {
       
       // Set the API key
       esriConfig.apiKey = "AAPTxy8BH1VEsoebNVZXo8HurEeWBrCUPqSi8hnMSbsokZImKDKTL2eumxMlESK1TMtKyNo7lfF29XWJr1HBgU5k8Yz-AjfuTxa2vPyyl0RCVT4xzL5PplmSPzOGedjbriUKafzdigctaodVOCB8qHpAEuLk4GAHY6vztIgXWOUq1FBuvbQImCq5iHcuQO8Ks9462SuFmCHUNWVKsZwvP1x3I8MHpskalumUoA2N4kWzqdcdEHRAEQeiLNeeOjQ4f_NtAT1_lgbmcTBB";
@@ -84,7 +84,7 @@
       //add the searchWidget
       var searchWidget = new Search({
         view: view
-        const sources = [{ url: "https://geocode-api.arcgis.com/arcgis/rest/services/World/GeocodeServer"}];
+
       });
 
       // Add the search widget to the top right corner of the view
@@ -99,7 +99,7 @@
       });
 
       // Add Expand widget to the top-right corner
-            view.ui.add(expand, "top-right");
+      view.ui.add(expand, "top-right");
     
     });
   </script> 

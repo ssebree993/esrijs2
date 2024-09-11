@@ -1,62 +1,58 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>Troubleshooting- Github blank background</title>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    
-    <!-- Calls for the ArcGIS API's CSS file and JS Library -->
-    <link rel="stylesheet" href="https://js.arcgis.com/4.25/esri/themes/light/main.css">
-    <script src="https://js.arcgis.com/4.25/"></script>
+  <title>Troubleshooting- Github blank background</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <!-- Calls for the ArcGIS API's CSS file and JS Library -->
+  <link rel="stylesheet" href="https://js.arcgis.com/4.25/esri/themes/light/main.css">
+  <script src="https://js.arcgis.com/4.25/"></script>
 
-    <!-- CSS to make a full screen map -->
-    <style>
-        html, 
-         body, 
-        #viewDiv {
-            padding: 0;
-            margin: 0;
-            height: 100%; 
-            width: 100%;
-        }
-    </style>
+  <!-- CSS to make a full screen map -->
+  <style>
+    html, 
+    body, 
+    #viewDiv {
+      padding: 0;
+      margin: 0;
+      height: 100%; 
+      width: 100%;
+    }
+  </style>
 
-    <!-- Adding the modules, API key, and map constant needed for a full screen map app -->
-    <script>
-        require([
-            "esri/config", 
-            "esri/Map", 
-            "esri/views/MapView", 
-            "esri/widgets/BasemapGallery",
-            "esri/Basemap", 
-            "esri/widgets/Expand"
-        ], function(esriConfig, Map, MapView, BasemapGallery, Basemap, Expand) {
-            
-            // Set the API key
-            esriConfig.apiKey = "AAPTxy8BH1VEsoebNVZXo8HurEeWBrCUPqSi8hnMSbsokZImKDKTL2eumxMlESK1TMtKX3gJ2wBAkO_V6RhRqzikZAw-impcWUS08CNTRxMZThwtPL1muLTpF_2nvp7i0-aJRdLsfglIt3AbJBWRO5bXlGpxjG_t6By6L1-vWJLVgI2N_qXF1CQx7bZlfhiKzKjTtHhUEmvRBXubdPaIzuKZfh7bZmMlIVz-7-4cORBc-NN-HByXcRV7Z2MAQbQTgHxTAT1_lgbmcTBB";
-            
-            // Create the map object
-            const map = new Map({
-                basemap: "arcgis-streets" // arcgis-imagery-labels just shows labels, no imagery
-            }); 
+  <!-- Adding the modules, API key, and map constant needed for a full screen map app -->
+  <script>
+    require([
+      "esri/config", 
+      "esri/Map", 
+      "esri/views/MapView", 
+      "esri/widgets/BasemapGallery",
+      "esri/Basemap", 
+      "esri/widgets/Expand"
+    ], function(esriConfig, Map, MapView, BasemapGallery, Basemap, Expand) {
+      
+      // Set the API key
+      esriConfig.apiKey = "AAPTxy8BH1VEsoebNVZXo8HurEeWBrCUPqSi8hnMSbsokZImKDKTL2eumxMlESK1TMtKyNo7lfF29XWJr1HBgU5k8Yz-AjfuTxa2vPyyl0RCVT4xzL5PplmSPzOGedjbriUKafzdigctaodVOCB8qHpAEuLk4GAHY6vztIgXWOUq1FBuvbQImCq5iHcuQO8Ks9462SuFmCHUNWVKsZwvP1x3I8MHpskalumUoA2N4kWzqdcdEHRAEQeiLNeeOjQ4f_NtAT1_lgbmcTBB";
+      
+      // Create the map object
+      const map = new Map({
+        basemap: "streets" // arcgis-imagery-labels just shows labels, no imagery
+      }); 
 
-            // Create the map view
-            const view = new MapView({
-                container: "viewDiv",
-                map: map,
-                spatialReference: {
-                    wkid: 3857 //3847 is new wgs84_web_mercator_auxiliary_sphere; old is 102100
-                },
-                //scale: 36978595.474472,
-                center: [-99.07, 40.701500], // Longitude, latitude Kearney, NE
-                zoom: 13 // Zoom level
-            });
-            
+      // Create the map view
+      const view = new MapView({
+        container: "viewDiv",
+        map: map,
+        center: [-99.07, 40.701500], // Longitude, latitude Kearney, NE
+        zoom: 10 // Zoom level
+      });
+      
       // Custom Basemap List
       const customBasemaps = [
         new Basemap({
           portalItem: {
-            id: "ff52218580f94d89851563f50cd1a2b2"  // Imagery Hybrid Basemap ID
+            id: "a5c16290d0874084be94798354ba16bf"  // Set up my own basemap in uw server Enhanced Contrast mapI
           },
           thumbnailUrl: "https://www.arcgis.com/sharing/rest/content/items/ff52218580f94d89851563f50cd1a2b2/info/thumbnail/thumbnail1574665466956.jpeg" // Correct URL for thumbnail
         }),
@@ -67,7 +63,7 @@
           thumbnailUrl: "https://www.arcgis.com/sharing/rest/content/items/826498a48bd0424f9c9315214f2165d4/info/thumbnail/thumbnail1580490854424.jpeg"
         })
         // Add more basemaps here as needed
-        // Getting "failed to load basemap error here; reboot and try again, or diff basemaps"
+        // Getting "Invalid Token" error on basemap. updated referer and API token. Still error. Try clearing cache again.
       ];
 
       // Basemap Gallery with Custom Basemaps
@@ -84,10 +80,8 @@
 
       // Add Expand widget to the top-right corner
       view.ui.add(expand, "top-right");
-        });
-    </script> 
-
-
+    });
+  </script> 
 </head>
 <body>
     <!-- The div to display the map -->

@@ -29,15 +29,14 @@
       "esri/views/MapView", 
       "esri/widgets/BasemapGallery",
       "esri/Basemap", 
-      "esri/widgets/Expand",
       "esri/widgets/Locate",
       "esri/widgets/Search",
       //"esri/widgets/LocatorSearchSource"
-    ], function(esriConfig, Map, MapView, BasemapGallery, Basemap, Expand, Locate, Search) {
+    ], function(esriConfig, Map, MapView, BasemapGallery, Basemap, Locate, Search) {
       
       // Set the API key
-      esriConfig.apiKey = "AAPTxy8BH1VEsoebNVZXo8HurEeWBrCUPqSi8hnMSbsokZImKDKTL2eumxMlESK1TMtKyNo7lfF29XWJr1HBgU5k8Yz-AjfuTxa2vPyyl0RCVT4xzL5PplmSPzOGedjbriUKafzdigctaodVOCB8qHpAEuLk4GAHY6vztIgXWOUq1FBuvbQImCq5iHcuQO8Ks9462SuFmCHUNWVKsZwvP1x3I8MHpskalumUoA2N4kWzqdcdEHRAEQeiLNeeOjQ4f_NtAT1_lgbmcTBB";
-      
+      //esriConfig.apiKey = "AAPTxy8BH1VEsoebNVZXo8HurEeWBrCUPqSi8hnMSbsokZImKDKTL2eumxMlESK1TMtKyNo7lfF29XWJr1HBgU5k8Yz-AjfuTxa2vPyyl0RCVT4xzL5PplmSPzOGedjbriUKafzdigctaodVOCB8qHpAEuLk4GAHY6vztIgXWOUq1FBuvbQImCq5iHcuQO8Ks9462SuFmCHUNWVKsZwvP1x3I8MHpskalumUoA2N4kWzqdcdEHRAEQeiLNeeOjQ4f_NtAT1_lgbmcTBB";
+      esriConfig.apiKey = "AAPKfc7af196c6e64aac988bbf7529dccd648UR6aqr1HCuaJ5GN7OXourF3WZ9GF_b8R9-mMcrEZMHlZzpuLXHwt5iwInOA9k4J";
       // Create the map object
       const map = new Map({
         basemap: "streets" // arcgis-imagery-labels just shows labels, no imagery
@@ -50,29 +49,13 @@
         center: [-99.07, 40.701500], // Longitude, latitude Kearney, NE
         zoom: 10 // Zoom level
       });
-      
-      // Custom Basemap List
-      const customBasemaps = [
-        new Basemap({
-          portalItem: {
-            id: "a5c16290d0874084be94798354ba16bf"  // Set up my own basemap in uw server Enhanced Contrast mapI
-          },
-          thumbnailUrl: "https://www.arcgis.com/sharing/rest/content/items/ff52218580f94d89851563f50cd1a2b2/info/thumbnail/thumbnail1574665466956.jpeg" // Correct URL for thumbnail
-        }),
-        new Basemap({
-          portalItem: {
-            id: "826498a48bd0424f9c9315214f2165d4"  // Colored Pencial Basemap ID
-          },
-          thumbnailUrl: "https://www.arcgis.com/sharing/rest/content/items/826498a48bd0424f9c9315214f2165d4/info/thumbnail/thumbnail1580490854424.jpeg"
-        })
-        // Add more basemaps here as needed
-        // Getting "Invalid Token" error on basemap. updated referer and API token. Still error. Try clearing cache again.
-      ];
 
-      // Basemap Gallery with Custom Basemaps
       const basemapGallery = new BasemapGallery({
-        view: view,
-        source: customBasemaps // Use custom basemaps
+        view: view
+      });
+
+      view.ui.add(basemapGallery, {
+        position: "bottom-right"
       });
 
       // Add the locateWidget
@@ -82,25 +65,9 @@
       view.ui.add(locateWidget, "top-left");
 
       //add the searchWidget
-      var searchWidget = new Search({
+      view.ui.add(new Search({
         view: view
-
-      });
-
-      // Add the search widget to the top right corner of the view
-      view.ui.add(searchWidget, {
-        position: "top-right"
-      });
-
-     // Expand widget to show the Basemap Gallery
-      const expand = new Expand({
-        view: view,
-        content: basemapGallery
-      });
-
-      // Add Expand widget to the top-right corner
-      view.ui.add(expand, "top-right");
-    
+      }), "top-right");
     });
   </script> 
 </head>

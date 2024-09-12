@@ -1,0 +1,82 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Hello, Map!</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta name="description" content="" />
+
+  <link rel="stylesheet" href="https://js.arcgis.com/4.25/esri/themes/light/main.css">
+  <script src="https://js.arcgis.com/4.25/"></script>
+
+  <script>
+    require([
+      "esri/config",
+      "esri/Map",
+      "esri/views/MapView",
+      "esri/layers/FeatureLayer",
+      "esri/widgets/BasemapGallery",
+      "esri/widgets/Locate",
+      "esri/widgets/Search"
+    ], function(esriConfig, Map, MapView, FeatureLayer, BasemapGallery, Locate, Search) {
+      //esriConfig.apiKey = "AAPTxy8BH1VEsoebNVZXo8HurO1yiQQh2vI3Qn8Db6q-7q35-Hk6vmdl5LFx-iA8OfHSzZWBPs9euPbIhU5mwGtGu2wHKcRhyRWhGF44mIJ_lf_SrxboCfkH2WJqMHNpKZT3GVEnXbMPbSXoCcWqZpu_ZfdMM9i27ua5v7c7xozIIBKWAZM105ZvIe0ebxu0uH_sOcseVuR5TdvN6Kh3KPkDc28Vj4ZcaSnqOAJuVTOXXfvUPrSXS7YeGqlkcCYMf1lrAT1_u49WXajV"; 
+      // my key esriConfig.apiKey = "AAPTxy8BH1VEsoebNVZXo8HurEeWBrCUPqSi8hnMSbsokZImKDKTL2eumxMlESK1TMtKyNo7lfF29XWJr1HBgU5k8Yz-AjfuTxa2vPyyl0RCVT4xzL5PplmSPzOGedjbriUKafzdigctaodVOCB8qHpAEuLk4GAHY6vztIgXWOUq1FBuvbQImCq5iHcuQO8Ks9462SuFmCHUNWVKsZwvP1x3I8MHpskalumUoA2N4kWzqdcdEHRAEQeiLNeeOjQ4f_NtAT1_lgbmcTBB";
+// legacy key was working; now stopped esriConfig.apiKey = "AAPKfc7af196c6e64aac988bbf7529dccd648UR6aqr1HCuaJ5GN7OXourF3WZ9GF_b8R9-mMcrEZMHlZzpuLXHwt5iwInOA9k4J";
+// New key
+//esriConfig.apiKey = "AAPTxy8BH1VEsoebNVZXo8HurEeWBrCUPqSi8hnMSbsokZImKDKTL2eumxMlESK1TMtK-u1WkAYPjIF1hMR2cgpI270F-zGq7LmMeXhEc5Wnf7eT124QtuI5VxuC9fOtAmSIpPzyM_klgJrxgMfXmxeSPGHBqnQKnGgt6WFL33H5BbwuwkxcU72zwJPXuED9ysfLaRJRHVKdsa1qKvgNNXF53YxTsEeZgHfGu-ie7NawQt0j-W884XxmyIxnKtPP8jrkAT1_kjc9umt0";
+      const map = new Map({
+        basemap: "arcgis-terrain"
+      });
+
+      const view = new MapView({
+        container: "viewDiv",
+        map: map,
+        center: [-89.471575, 41.993124],
+        zoom: 16
+      });
+
+      let basemapGallery = new BasemapGallery({
+        view: view
+      });
+
+      view.ui.add(basemapGallery, {
+        position: "bottom-left"
+      });
+      
+      let locate = new Locate({
+        view: view
+      });
+
+      view.ui.add(locate, {
+        position: "bottom-right", 
+        index: 0 
+      });
+      
+      // Log to confirm widgets creation
+      console.log("BasemapGallery and Locate widgets added.");
+
+      const searchWidget = new Search({
+        view: view
+      });
+
+      view.ui.add(searchWidget, {
+        position: "top-right",
+        index: 2
+      });
+    });
+  </script>
+
+  <style>
+    html, body, #viewDiv {
+      padding: 0;
+      margin: 0;
+      height: 100%;
+      width: 100%;
+    }
+  </style>
+</head>
+<body>
+  <div id="viewDiv"></div>
+</body>
+</html>

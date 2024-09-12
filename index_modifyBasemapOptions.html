@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Troubleshooting- Github blank background</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <!-- Calls for the ArcGIS API's CSS file and JS Library -->
+  <link rel="stylesheet" href="https://js.arcgis.com/4.25/esri/themes/light/main.css">
+  <script src="https://js.arcgis.com/4.25/"></script>
+
+  <!-- CSS to make a full screen map -->
+  <style>
+    html, 
+    body, 
+    #viewDiv {
+      padding: 0;
+      margin: 0;
+      height: 100%; 
+      width: 100%;
+    }
+  </style>
+
+  <!-- Adding the modules, API key, and map constant needed for a full screen map app -->
+  <script>
+    require([
+      "esri/config", 
+      "esri/Map", 
+      "esri/views/MapView", 
+      "esri/widgets/BasemapGallery",
+      "esri/Basemap", 
+      "esri/widgets/Expand",
+      "esri/widgets/Locate",
+      "esri/widgets/Search",
+      //"esri/widgets/LocatorSearchSource"
+    ], function(esriConfig, Map, MapView, BasemapGallery, Basemap, Expand, Locate, Search) {
+      
+      // Set the API key
+      esriConfig.apiKey = "AAPTxy8BH1VEsoebNVZXo8HurEeWBrCUPqSi8hnMSbsokZImKDKTL2eumxMlESK1TMtKyNo7lfF29XWJr1HBgU5k8Yz-AjfuTxa2vPyyl0RCVT4xzL5PplmSPzOGedjbriUKafzdigctaodVOCB8qHpAEuLk4GAHY6vztIgXWOUq1FBuvbQImCq5iHcuQO8Ks9462SuFmCHUNWVKsZwvP1x3I8MHpskalumUoA2N4kWzqdcdEHRAEQeiLNeeOjQ4f_NtAT1_lgbmcTBB";
+      
+      // Create the map object
+      const map = new Map({
+        basemap: "topo-vector", // arcgis-imagery-labels just shows labels, no imagery
+        ground: "world-elevation" // osm-streets-relief-vector is a vector tile layer
+      }); 
+
+      // Create the map view
+      const view = new MapView({
+        container: "viewDiv",
+        map: map,
+        center: [-99.07, 40.701500], // Longitude, latitude Kearney, NE
+        zoom: 10 // Zoom level
+      });
+      
+      // Custom Basemap List
+      const customBasemaps = [
+        new Basemap({
+          portalItem: {
+            id: "ab5676525747a5c16290d0874084be94798354ba16bf"  // 
+          },
+          thumbnailUrl: "https://www.arcgis.com/sharing/rest/content/items/ff52218580f94d89851563f50cd1a2b2/info/thumbnail/thumbnail1574665466956.jpeg" // Correct URL for thumbnail
+        }),
+        new Basemap({
+          portalItem: {
+            id: "d617445b42c54afcbcc75be4ed77803c165d4"  // Copy of my own enhanced contrast basemap - ch permissions
+          },
+          thumbnailUrl: "https://www.arcgis.com/sharing/rest/content/items/826498a48bd0424f9c9315214f2165d4/info/thumbnail/thumbnail1580490854424.jpeg"
+        }), 
+        new Basemap({
+          style:[ "streets", "hybrid", "topo", "gray", "dark-gray", "oceans", "national-geographic", "terrain", "osm", "satellite", "streets-navigation-vector", "streets-night-vector", "streets-relief-vector", "streets-vector", "topo-vector", "streets-navigation-vector"],
+        })  //pick one or list
+        // Add more basemaps here as needed
+        // Getting "Invalid Token" error on basemap. updated referer and API token. Still error. Try clearing cache again.
+      ];
+
+      // Basemap Gallery with Custom Basemaps
+      const basemapGallery = new BasemapGallery({
+        view: view,
+        source: customBasemaps // Use custom basemaps
+      });
+
+      // Add the locateWidget
+      const locateWidget = new Locate({
+        view: view
+      });
+      view.ui.add(locateWidget, "top-right");
+
+      //add the searchWidget
+      var searchWidget = new Search({
+        view: view
+      });
+
+      // Add the search widget to the top right corner of the view
+      view.ui.add(searchWidget, {
+        position: "top-right"
+      });
+     // Expand widget to show the Basemap Gallery
+      const expand = new Expand({
+        view: view,
+        content: basemapGallery, searchWidget
+      });
+
+      // Add Expand widget to the top-right corner
+      view.ui.add(expand, "top-right");
+    
+    });
+  </script> 
+</head>
+<body>
+  <!-- The div to display the map -->
+  <div id="viewDiv"></div>
+  <div id="galleryDiv"></div>
+</body>
+</html>
